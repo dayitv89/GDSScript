@@ -1,5 +1,5 @@
 #!/bin/bash
-my_git_name='gauravds'
+my_git_name='gauravds' #put your github username
 t_red_start=`tput setab 1`
 t_start=`tput setab 7`
 t_end=`tput sgr 0`
