@@ -10,13 +10,13 @@ cd $1
 echo ${t_start}git clone git@github.com:punchh/$2.git${t_end}
 git clone git@github.com:punchh/$2.git
 
-echo cd ${t_start}git clone git@github.com:punchh/$2.git${t_end}
+echo ${t_start}cd $2${t_end}
 cd $2
 
 echo ${t_start}git remote rename origin upstream${t_end}
 git remote rename origin upstream
 
-echo ${t_start}git remote add -f origin git@github.com:${my_git_name}/$2.git${t_end}
+echo ${t_start}git remote add origin git@github.com:${my_git_name}/$2.git${t_end}
 git remote add origin git@github.com:${my_git_name}/$2.git
 
 echo ${t_start}git fetch --all${t_end}
@@ -31,7 +31,7 @@ cd framework-ios
 echo ${t_start}git remote rename origin upstream${t_end}
 git remote rename origin upstream
 
-echo ${t_start}git remote add -f origin git@github.com:${my_git_name}/framework-ios.git${t_end}
+echo ${t_start}git remote add origin git@github.com:${my_git_name}/framework-ios.git${t_end}
 git remote add origin git@github.com:${my_git_name}/framework-ios.git
 
 echo ${t_start}git fetch --all${t_end}
