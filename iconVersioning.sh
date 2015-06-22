@@ -59,22 +59,26 @@ function processIcon() {
       mv "${stored_original_file}" "${base_path}"
     fi
 
-    if [ $environment = "Live" ]; then
-      cp "${base_path}" "$target_path"
-      return 0;
+    shopt -s nocasematch
+    if [[ $environment = "Live" ]]; then
+        cp "${base_path}" "$target_path"
+        return 0;
     fi
+    shopt -u nocasematch
 
     if [ ! "$environment" ];then
-      echo "ERROR: Operation not allowed. This build is not pointing to Live Server. Please change the server configuration from info.plist -> Environment"
-      exit 1;
-    fi
-
-    if [ $CONFIGURATION = "Release" ]; then
-      if [ $environment != "Live" ]; then
         echo "ERROR: Operation not allowed. This build is not pointing to Live Server. Please change the server configuration from info.plist -> Environment"
         exit 1;
-      fi
     fi
+
+    shopt -s nocasematch
+    if [[ $CONFIGURATION = "Release" ]]; then
+        if [[ $environment != "Live" ]]; then
+            echo "ERROR: Operation not allowed. This build is not pointing to Live Server. Please change the server configuration from info.plist -> Environment"
+            exit 1;
+        fi
+    fi
+    shopt -u nocasematch
 
     echo "Reverting optimized PNG to normal"
     # Normalize
