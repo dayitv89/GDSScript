@@ -1,7 +1,9 @@
 #! /usr/bin/env python
 
 import os
+import shutil
 import json
+from mod_pbxproj import *
 
 def prRed(prt): print("\033[91m {}\033[00m" .format(prt))
 def prGreen(prt): print("\033[92m {}\033[00m" .format(prt))
@@ -31,4 +33,20 @@ prGreen("copy...")
 os.system("cp -r "+orignal_tmpt+" "+new_path)
 prGreen("copy done.")
 
-prCyan(input_json)
+# sourceCode = XcodeProject.Load(new_path+"PunchhPointBasedApp/PunchhPointBasedApp.xcodeproj/project.pbxproj")
+sourceCode = open(new_path+"PunchhPointBasedApp/PunchhPointBasedApp.xcodeproj/project.pbxproj").read()
+# print sourceCode
+projectName = input_json["projectName"]
+sourceCode = sourceCode.replace("PunchhPointBasedApp", projectName)
+rewritefile = open(new_path+"PunchhPointBasedApp/PunchhPointBasedApp.xcodeproj/project.pbxproj", "w")
+rewritefile.write(sourceCode)
+rewritefile.close()
+
+#remove the xcuserdata file from the project
+shutil.rmtree(new_path+"PunchhPointBasedApp/PunchhPointBasedApp.xcodeproj/xcuserdata")
+
+os.rename(new_path+"PunchhPointBasedApp/PunchhPointBasedApp.xcodeproj", new_path+"PunchhPointBasedApp/"+projectName+".xcodeproj")
+os.rename(new_path+"PunchhPointBasedApp/PunchhPointBasedApp", new_path+"PunchhPointBasedApp/"+projectName)
+
+
+prRed("file content change")
