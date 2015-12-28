@@ -1,6 +1,7 @@
-import getopt, sys, os
+import getopt, sys, os, shutil
 
 home = os.path.expanduser("~")
+orignal_tmpt = home+"/.punchh/tmpt/"
 verbose = False
 
 def prRed(prt): print("\033[91m {}\033[00m" .format(prt))
@@ -20,13 +21,15 @@ def readCMD():
         print(err) # will print something like "option -a not recognized"
         usage()
         sys.exit(2)
+    createProjectCall = False
+    # prCyan(opts)
     if len(opts) == 0 :
         usage()
     else:
         for o, a in opts:
             if o == "-v":
                 verbose = True
-                prRed("verbose mode on")
+                prCyan("verbose mode on")
             elif o in ("-h", "--help"):
                 usage()
                 # sys.exit()
@@ -36,9 +39,10 @@ def readCMD():
                     prRed('spacify a valid type : -c ("pointLinear", "pointRadial", "visit")')
                     sys.exit()
                 else:
-                    createProject(opts, args)
-            else:
-                assert False, "type -h for help"
+                    createProjectCall = True
+            # else:
+            #     assert False, "type -h for help"
+        if createProjectCall: createProject(opts, args)
 def usage():
     info = """
 -c --create : create new project; use as \n$punchhHT -c pointLinear\n
@@ -51,17 +55,43 @@ def usage():
 def createProject(opts, args):
     projectName = None
     projectType = None
-    projectPath = home + "/Desktop/"
-    projectTypeEnum = {"pointLinear":0, "pointRadial":1, "visit":2}
+    new_path = home + "/Desktop/"
+    projectTypeEnum = {"pointLinear":"Punchh Point Based Linear", "pointRadial":"Punchh Point Based Radial", "visit":"Punchh Visit Based"}
     for o, a in opts:
         if o in ("-c", "--create"):
             projectType = projectTypeEnum[a]
         elif o in ("-n", "--name", "-pn", "--project-name"):
             projectName = a
         elif o in ("-p", "--path"):
-            projectPath = a
-    prLightPurple(projectName)
-    prLightPurple(projectType)
-    prLightPurple(projectPath)
+            new_path = a
+            if not new_path.endswith("/"): new_path += "/"
+            if not os.path.exists(new_path): os.makedirs(new_path)
+
+    projectNameSpc = projectType.replace(" ","\\ ")
+    if os.path.exists(new_path+projectType):
+        prRed("Project Destination path already exist: "+new_path+projectType)
+        read = raw_input(" Want to replace (y/n): ")
+        if read == 'y':
+            rmCMD = "rm -rf " + new_path + projectNameSpc +"/"
+            if verbose: prRed(rmCMD)
+            os.system(rmCMD)
+        else:
+            sys.exit()
+
+    copyCMD = "cp -r "+orignal_tmpt+projectNameSpc+" "+new_path
+    if verbose: prRed(copyCMD)
+    os.system(copyCMD)
+    if projectName:
+        sourceCode = open(new_path+projectType+"/"+projectType+".xcodeproj/project.pbxproj").read()
+        sourceCode = sourceCode.replace(projectType, projectName)
+        rewritefile = open(new_path+projectType+"/"+projectType+".xcodeproj/project.pbxproj", "w")
+        rewritefile.write(sourceCode)
+        rewritefile.close()
+
+        shutil.rmtree(new_path+projectType+"/"+projectType+".xcodeproj/xcuserdata")
+        os.rename(new_path+projectType+"/"+projectType+".xcodeproj", new_path+projectType+"/"+projectName+".xcodeproj")
+        os.rename(new_path+projectType+"/"+projectType, new_path+projectType+"/"+projectName)
+        os.rename(new_path+projectType,new_path+projectName)
+    prGreen("DONE")
 
 readCMD()
