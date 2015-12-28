@@ -24,6 +24,7 @@ def readCMD():
         usage()
         sys.exit(2)
     createProjectCall = False
+    global verbose
     # prCyan(opts)
     if len(opts) == 0 :
         usage()
@@ -47,7 +48,7 @@ def readCMD():
         if createProjectCall: createProject(opts, args)
 def usage():
     info = """
--c --create : create new project; use as \n$punchhHT -c pointLinear\n
+-c --create : create new project; -c ("pointLinear", "pointRadial", "visit"); use as \n$punchhHT -c pointLinear\n
 -n --name : project name; use as \n$punchhHT -c pointLinear -n "Point Based Linear" \n
 -h --help : punchh hyper terminal help; use as $punchhHT -h\n
 -p --path : project destination path; default is desktop; use as \n$punchhHT -c pointLinear -n "Point Based Linear" -p /user/username/Desktop/MyProjects/PunchhProjects/ \n
@@ -75,13 +76,13 @@ def createProject(opts, args):
         read = raw_input(" Want to replace (y/n): ")
         if read == 'y':
             rmCMD = "rm -rf " + new_path + projectNameSpc +"/"
-            if verbose: prRed(rmCMD)
+            if verbose: prCyan(rmCMD)
             os.system(rmCMD)
         else:
             sys.exit()
 
     copyCMD = "cp -r "+orignal_tmpt+projectNameSpc+" "+new_path
-    if verbose: prRed(copyCMD)
+    if verbose: prCyan("project is copying...")
     os.system(copyCMD)
     if projectName:
         sourceCode = open(new_path+projectType+"/"+projectType+".xcodeproj/project.pbxproj").read()
@@ -95,5 +96,6 @@ def createProject(opts, args):
         os.rename(new_path+projectType+"/"+projectType, new_path+projectType+"/"+projectName)
         os.rename(new_path+projectType,new_path+projectName)
     prGreen("DONE")
+    prLightPurple("Project copied to: "+new_path)
 
 readCMD()
