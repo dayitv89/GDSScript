@@ -48,5 +48,4 @@ shutil.rmtree(new_path+"PunchhPointBasedApp/PunchhPointBasedApp.xcodeproj/xcuser
 os.rename(new_path+"PunchhPointBasedApp/PunchhPointBasedApp.xcodeproj", new_path+"PunchhPointBasedApp/"+projectName+".xcodeproj")
 os.rename(new_path+"PunchhPointBasedApp/PunchhPointBasedApp", new_path+"PunchhPointBasedApp/"+projectName)
 
-
 prRed("file content change")
