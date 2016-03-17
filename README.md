@@ -8,18 +8,21 @@ add submodule
 add origin and upstream of submodule (framework only)
 print the remote at last.
 
-`$ chmod +x gitXDownload.sh`
+  `$ chmod +x gitXDownload.sh`
 
-`$ ./gitXDownload.sh /Users/gauravds/Desktop repo-ios`
+  `$ ./gitXDownload.sh /Users/gauravds/Desktop repo-ios`
 
 
-2. CCArc.py
-It will add -fno-objc-arc (arc disable flag) for cocos game in xcode project.
-cd Project_path
-`python CCArc.py`
+1. CCArc.py
 
-env check script
+  It will add -fno-objc-arc (arc disable flag) for cocos game in xcode project.
+  ```
+  cd Project_path
+  python CCArc.py
+  ```
 
-Fixtypo script  fNr.py
+1. env check script
 
-PBXedit scripts
+1. Fixtypo script  fNr.py
+
+1. PBXedit scripts
