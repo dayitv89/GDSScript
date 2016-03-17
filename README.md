@@ -1,5 +1,5 @@
-# PunchhScript
-shell script git codes for punchh
+# GDSScript
+shell script git codes with submodule check
 
 1. gitXDownload.sh
 It will clone remote repo
@@ -16,9 +16,10 @@ print the remote at last.
 2. CCArc.py
 It will add -fno-objc-arc (arc disable flag) for cocos game in xcode project.
 cd Project_path
-python CCArc.py
+`python CCArc.py`
 
-3. iconVersioning.sh
-Script for stop making ipa without live environment.
-environment not case insensitive comapre
-environment = "live/LIVE/Live/LiVe" 
+env check script
+
+Fixtypo script  fNr.py
+
+PBXedit scripts
