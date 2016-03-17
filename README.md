@@ -26,3 +26,6 @@ print the remote at last.
 1. Fixtypo script  fNr.py
 
 1. PBXedit scripts
+
+1. HyperTerminal python script testing. use HT_exec which is just exec permission and placed at  `/usr/bin/HT_exec`
+
