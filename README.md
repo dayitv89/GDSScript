@@ -12,6 +12,7 @@ print the remote at last.
 
   `$ ./gitXDownload.sh /Users/gauravds/Desktop repo-ios`
 
+1. `.bash_profile` or `._profile` @ ~/ directory for custom terminal shortcuts; either restart terminal or run `source .bash_profile` for immediate changes'
 
 1. CCArc.py
 

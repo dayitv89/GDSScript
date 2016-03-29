@@ -148,6 +148,7 @@ while [  $i -lt $last_icon_index ]; do
   let i=i+1
 done
 
+
 # Workaround to fix issue#16 to use wildcard * to actually find the file
 # Only 72x72 and 76x76 that we need for ipad app icons
 processIcon "AppIcon72x72~ipad*"
