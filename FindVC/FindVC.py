@@ -57,7 +57,7 @@ class OCHeader(object):
 			if self.line.startswith('@interface'):
 				try: 
 					super_class_name = self.line.split(':')[1]
-					super_class_name = re.split('<|\n| ', super_class_name.lstrip())[0]
+					super_class_name = re.split('<|\n|\t| ', super_class_name.lstrip())[0]
 					if self.verbose: print(INFO + "Found superclass: %s" % super_class_name)
 					self._super_class_name = super_class_name.strip()
 					if self._super_class_name not in self.superExcept:
@@ -116,13 +116,18 @@ def listAll(path, ext):
 		dirs.extend([path+'/'+f for f in dirnames])
 		break
 
+### find valid OC line or not 
+## @interface CLASSNAME : SUPERCLASS 
+def regex(str):
+	return bool(re.compile(r'(@interface)[^@]+:[^@]+').match(str))
+
 def printDetails(filePath):
 	lineNo = 0
 	for line in open(filePath, 'r'):
 		line = line.strip()
 		if line.startswith(linesExcept): continue
 		lineNo += 1
-		if line.startswith("@interface"):
+		if regex(line):
 			oc = OCHeader(filePath, lineNo, line)
 			if oc.all_ok: ocfiles.append(oc)
 
