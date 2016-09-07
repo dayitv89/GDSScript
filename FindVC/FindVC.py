@@ -4,6 +4,7 @@ import os
 import platform
 from pprint import pprint
 import re
+import json
 
 
 if platform.system().lower() in ['linux', 'darwin']:
@@ -25,6 +26,8 @@ class OCHeader(object):
 		self._super_class_name = None
 		self._pretty_class_name = None
 		self.all_ok = False
+		self.childOk = False
+		self.superOk = False
 		self.verbose = verbose
 		# call all this
 		self.class_name()
@@ -32,8 +35,8 @@ class OCHeader(object):
 		self.pretty_class_name()
 
 	def printView(self): return str(self.class_name()) + " : " +str(self.super_class_name()) + " = " + str(self.pretty_class_name()) + " line " + self.line
-	def __str__(self): return self.printView()
-	def __repr__(self): return self.printView()
+	# def __str__(self): return self.printView()
+	# def __repr__(self): return self.printView()
 
 	def toCSV(self): return str(self.class_name()) + "," +str(self.super_class_name()) + "," + str(self.pretty_class_name())
 
@@ -44,9 +47,9 @@ class OCHeader(object):
 		else:
 			if self.line.startswith('@interface'):
 				class_name = self.line.split('@interface')[1].lstrip().split(' ')[0]
-				if self.verbose: print(INFO + "Found class: %s" % class_name)
+				# if self.verbose: print(INFO + "Found class: %s" % class_name)
 				self._class_name = class_name.strip()
-				self.all_ok = True
+				self.childOk = True
 				return self._class_name
 
 	def super_class_name(self):
@@ -58,12 +61,10 @@ class OCHeader(object):
 				try: 
 					super_class_name = self.line.split(':')[1]
 					super_class_name = re.split('<|\n|\t| ', super_class_name.lstrip())[0]
-					if self.verbose: print(INFO + "Found superclass: %s" % super_class_name)
 					self._super_class_name = super_class_name.strip()
 					if self._super_class_name not in self.superExcept:
-						self.all_ok = True
-					else:
-						self.all_ok = False
+						self.superOk = True
+					if self.verbose: print(INFO + "Found superclass: %s" % super_class_name ) 
 					return self._super_class_name
 				except IndexError as error:
 					pass
@@ -73,8 +74,8 @@ class OCHeader(object):
 		if self._pretty_class_name is not None:
 			return self._pretty_class_name
 		else:
-			## main logic
-			if self.all_ok:
+			if self.superOk and self.childOk:
+				self.all_ok = True
 				self._pretty_class_name = self.convertName(self.class_name())
 				return self._pretty_class_name
 			else:
@@ -84,14 +85,13 @@ class OCHeader(object):
 
 ### HELPER 
 	keywordsReplace = { 
-		"View Controller" : "Screen",
-		"view Controller" : "Screen",
-		"view controller" : "Screen",
-		"View" : "VIEW***",
-		"view" : "VIEW***"
+		"controller" : "Screen **",
+		"Controller" : "Screen **",
+		"view Screen **" : "Screen *",
+		"View Screen **"  : "Screen *",
 	}
 
-	superExcept = ["NSObject", "UIView", "UIViewController", "UITabBarController", "SFSafariViewController", "JSONModel"]
+	superExcept = ["NSObject", "UIView", "UILabel", "UIViewController", "UITabBarController", "SFSafariViewController", "JSONModel"]
 
 	def convertName(self, name):
 		## camel to space sepecrate code 
@@ -128,7 +128,7 @@ def printDetails(filePath):
 		if line.startswith(linesExcept): continue
 		lineNo += 1
 		if regex(line):
-			oc = OCHeader(filePath, lineNo, line)
+			oc = OCHeader(filePath, lineNo, line, verbose=True)
 			if oc.all_ok: ocfiles.append(oc)
 
 ### finds all directories recursively into `dirs`; and finds only .h files into `files`
@@ -138,8 +138,14 @@ for a in dirs: listAll(a, ".h")
 for fl in files: printDetails(fl)
 
 # pprint(ocfiles)
+def default(instance):
+    return {k: v
+            for k, v in vars(instance).items()
+            if str(k).startswith('_')
+            }
 
-print json.dumps(ocfiles)
+# use to convert CSV and xls :: https://json-csv.com/
+print json.dumps(ocfiles, default=default)
 
 
 
