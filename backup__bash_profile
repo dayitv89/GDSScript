@@ -45,3 +45,10 @@ gitCommitPush() {
 }
 alias gcp=gitCommitPush
 
+gitCommitPushBranch() {
+        gcm "$2"
+        gpo "$1"
+        gpu "$1"
+}
+alias gcpb=gitCommitPushBranch
+
