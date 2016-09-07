@@ -37,3 +37,11 @@ alias gcm="git add .;git commit -m"
 alias gru="git rebase upstream/master"
 alias fr="git checkout master;gfa;gru;gpg master"
 
+
+gitCommitPush() {
+        gcm "$1"
+        gpo master
+        gpu master
+}
+alias gcp=gitCommitPush
+
