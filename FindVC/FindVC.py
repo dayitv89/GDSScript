@@ -31,9 +31,9 @@ class OCHeader(object):
 		self.super_class_name()
 		self.pretty_class_name()
 
-	def __str__(self): return str(self.class_name()) + " : " +str(self.super_class_name()) + " = " + str(self.pretty_class_name())
+	def __str__(self): str(self.class_name()) + " : " +str(self.super_class_name()) + " = " + str(self.pretty_class_name()) + " line " + self.line
 
-	def __repr__(self): return str(self.class_name()) + " : " +str(self.super_class_name()) + " = " + str(self.pretty_class_name()) + " line " + self.line
+	def __repr__(self): return self.__str__
 
 	def toCSV(self): return str(self.class_name()) + "," +str(self.super_class_name()) + "," + str(self.pretty_class_name())
 
