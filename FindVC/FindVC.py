@@ -137,8 +137,9 @@ for a in dirs: listAll(a, ".h")
 # pprint(files)
 for fl in files: printDetails(fl)
 
-pprint(ocfiles)
+# pprint(ocfiles)
 
+print json.dumps(ocfiles)
 
 
 
