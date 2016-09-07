@@ -47,7 +47,7 @@ class OCHeader(object):
 		else:
 			if self.line.startswith('@interface'):
 				class_name = self.line.split('@interface')[1].lstrip().split(' ')[0]
-				# if self.verbose: print(INFO + "Found class: %s" % class_name)
+				if self.verbose: print(INFO + "Found class: %s" % class_name)
 				self._class_name = class_name.strip()
 				self.childOk = True
 				return self._class_name
@@ -91,7 +91,7 @@ class OCHeader(object):
 		"View Screen **"  : "Screen *",
 	}
 
-	superExcept = ["NSObject", "UIView", "UILabel", "UIViewController", "UITabBarController", "SFSafariViewController", "JSONModel"]
+	superExcept = ["NSObject", "UIView", "UILabel", "UIButton", "UITableViewCell", "UIImageView", "UITextField", "UIViewController", "UITabBarController", "SFSafariViewController", "JSONModel"]
 
 	def convertName(self, name):
 		## camel to space sepecrate code 
@@ -128,7 +128,7 @@ def printDetails(filePath):
 		if line.startswith(linesExcept): continue
 		lineNo += 1
 		if regex(line):
-			oc = OCHeader(filePath, lineNo, line, verbose=True)
+			oc = OCHeader(filePath, lineNo, line, verbose=False)
 			if oc.all_ok: ocfiles.append(oc)
 
 ### finds all directories recursively into `dirs`; and finds only .h files into `files`
