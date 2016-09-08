@@ -1,3 +1,14 @@
+##########################################################################
+###
+### py27-terminal-cmd $ python FindVC.py <FOLEDER PATH>
+###
+### GauravDS Seo 08, 2016.
+###
+### Find the ViewController Names and super class name, rename VC name to 
+### pretty name :: Purpose to make pretty name for Google Anlytics
+###
+##########################################################################
+
 import sys
 from os import walk
 import os 
@@ -25,18 +36,20 @@ class OCHeader(object):
 		self._class_name = None
 		self._super_class_name = None
 		self._pretty_class_name = None
+		self._childs = []
 		self.all_ok = False
 		self.childOk = False
 		self.superOk = False
 		self.verbose = verbose
 		# call all this
-		self.class_name()
-		self.super_class_name()
-		self.pretty_class_name()
+		if line:
+			self.class_name()
+			self.super_class_name()
+			self.pretty_class_name()
 
 	def printView(self): return str(self.class_name()) + " : " +str(self.super_class_name()) + " = " + str(self.pretty_class_name()) + " line " + self.line
 	# def __str__(self): return self.printView()
-	# def __repr__(self): return self.printView()
+	def __repr__(self): return self.printView()
 
 	def toCSV(self): return str(self.class_name()) + "," +str(self.super_class_name()) + "," + str(self.pretty_class_name())
 
@@ -60,7 +73,7 @@ class OCHeader(object):
 			if self.line.startswith('@interface'):
 				try: 
 					super_class_name = self.line.split(':')[1]
-					super_class_name = re.split('<|\n|\t| ', super_class_name.lstrip())[0]
+					super_class_name = re.split('<|\n|\t|{| ', super_class_name.lstrip())[0]
 					self._super_class_name = super_class_name.strip()
 					if self._super_class_name not in self.superExcept:
 						self.superOk = True
@@ -82,6 +95,17 @@ class OCHeader(object):
 				self._pretty_class_name = "class name not ok " + str(self._class_name)
 			return self._pretty_class_name
 
+	def addChilds(self, obj):
+		if self._class_name == obj._super_class_name:
+			self._childs.append(obj)
+			return True
+		else:
+			for c in self._childs:
+				if c.addChilds(obj):
+					return True
+			return False
+
+
 
 ### HELPER 
 	keywordsReplace = { 
@@ -91,7 +115,7 @@ class OCHeader(object):
 		"View Screen **"  : "Screen *",
 	}
 
-	superExcept = ["NSObject", "UIView", "UILabel", "UIButton", "UITableViewCell", "UIImageView", "UITextField", "UIViewController", "UITabBarController", "SFSafariViewController", "JSONModel"]
+	superExcept = ["NSObject", "UIView", "UILabel", "UIButton", "UITableViewCell", "UIImageView", "UITextField", "JSONModel"]
 
 	def convertName(self, name):
 		## camel to space sepecrate code 
@@ -137,6 +161,14 @@ for a in dirs: listAll(a, ".h")
 # pprint(files)
 for fl in files: printDetails(fl)
 
+### Add some more root files
+oc = OCHeader("not available", "not available", "@interface UIResponder : NSObject ")
+ocfiles.append(oc)
+oc = OCHeader("not available", "not available", "@interface UIViewController : UIResponder ")
+ocfiles.append(oc)
+oc = OCHeader("not available", "not available", "@interface GAITrackedViewController : UIViewController ")
+ocfiles.append(oc)
+
 # pprint(ocfiles)
 def default(instance):
     return {k: v
@@ -144,8 +176,31 @@ def default(instance):
             if str(k).startswith('_')
             }
 
+# print json.dumps(ocfiles, default=default)
+
+## new exp
+deleteNodes = []
+for i in xrange(len(ocfiles)):
+	oc1 = ocfiles[i]
+	for j in xrange(len(ocfiles)):
+		if i == j: pass
+		if oc1.addChilds(ocfiles[j]):
+			deleteNodes.append(j)
+
+deleteNodes = list(set(deleteNodes))
+for index in reversed(sorted(deleteNodes)):
+	del ocfiles[index]
+
+finalData = {}
+for oc in ocfiles:
+	if oc.super_class_name() not in finalData:
+		finalData[oc.super_class_name()] = [oc]
+	else:
+		finalData[oc.super_class_name()].append(oc)
+
+
 # use to convert CSV and xls :: https://json-csv.com/
-print json.dumps(ocfiles, default=default)
+print json.dumps(finalData, default=default)
 
 
 
