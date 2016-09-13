@@ -110,10 +110,10 @@ ocfiles = []
 linesExcept = ("//", "#")
 lineInclude = ("@interface")
 
-def listAll(path, ext):
+def listAll(path, ext, ignoreDirs):
 	for (dirpath, dirnames, filenames) in walk(path):
 		files.extend([path+'/'+f for f in filenames if f.endswith(ext)])
-		dirs.extend([path+'/'+f for f in dirnames])
+		dirs.extend([path+'/'+f for f in dirnames if f not in ignoreDirs])
 		break
 
 ### find valid OC line or not 
@@ -132,7 +132,8 @@ def printDetails(filePath):
 			if oc.all_ok: ocfiles.append(oc)
 
 ### finds all directories recursively into `dirs`; and finds only .h files into `files`
-for a in dirs: listAll(a, ".h") 
+ignoreDir = ["Libraries"]
+for a in dirs: listAll(a, ".h", ignoreDir)
 
 # pprint(files)
 for fl in files: printDetails(fl)
