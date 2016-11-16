@@ -35,7 +35,11 @@ alias grv="git remote -v"
 alias gc="git clone"
 alias gcm="git add .;git commit -m"
 alias gru="git rebase upstream/master"
-alias fr="git checkout master;gfa;gru;gpg master"
+#git master rebase
+alias mr="git checkout master;gfa;gru;gpg master" 
+#git current branch
+alias gb="git status | grep 'On branch' | cut -c 11-"  
+alias gbc="gb; gb | pbcopy"
 
 
 gitCommitPush() {
