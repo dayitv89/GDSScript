@@ -25,7 +25,7 @@ npm -v  # 5.3 or 5.x
 # install express and PM2 
 mkdir ~/www
 cd ~/www
-touch package.json < {}
+echo '{}' > package.json
 npm i express
 sudo npm i pm2 -g
 
