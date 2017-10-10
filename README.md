@@ -4,6 +4,8 @@ Available scripts:
 
 1. aws scripts @ `aws/`
 
+1. `github.cjs.js` I don't like new github black color I changed it to my navy blue color and place it to `chrome cjs` to change color. @ `cjs/` 
+
 1. `find_all.py` find all files names on given path (recursively). @ `common/`
 
 1. `gen_md2html.py` markdown to html converted. @ `common/`
