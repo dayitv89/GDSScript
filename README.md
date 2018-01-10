@@ -16,6 +16,8 @@ Available scripts:
 
 1. CSV upload script on some server @ `csv_upload/`. @ `csv_upload/`
 
+1. Rename all files as `xxx~ipad.png` to `xxx.png`, find this @ `common/`.@`rename_files.py`
+
 1. `env.sh` env check script for iOS apps. @ `common/`
 
 1. Fixtypo script  `fNr.py` @ `SpellFix/`. used to fix typo in source project. I used this for apple/swift repo. @ `SpellFix/`
