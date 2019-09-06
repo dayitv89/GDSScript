@@ -144,6 +144,13 @@
 		document.getElementById(id).select();
 		document.execCommand('copy');
 	}
+
+	function ratio(type) {
+		var val_a = document.getElementById('ratio_a').value;
+		var val_b = document.getElementById('ratio_b').value;
+		var val_c = document.getElementById('ratio_c').value;
+		document.getElementById('ratio_d').value = val_c * val_b / val_a;
+	}
 </script>
 
 <div style="width: 75%; align-items: 'center'; margin: 50px auto;">
@@ -188,6 +195,16 @@
 		<div id="floatColor" style="width: 20; height: 20; display: inline-block; background-color: white"></div>
 		RGBA: <input id='rgbReal' type="text" value="255,255,255,1.0" onKeyUp="covFloatColor('rgbReal')" size="30" />
 		<button onclick="clipToCopy('rgbReal')" type="button">Tap to copy</button>
+	</div>
+
+	<div style='background-color: white; height: 50px'>&nbsp;</div>
+
+	<div style="background-color: #00478e; color: white; padding: 10px; width: 65%; margin: 0 auto;">
+		a =><input id='ratio_a' type="text" value="1" onKeyUp="ratio()" size="15" />
+		b => <input id='ratio_b' type="text" value="1" onKeyUp="ratio()" size="15" />
+		c => <input id='ratio_c' type="text" value="1" onKeyUp="ratio()" size="15" />
+		d => <input id='ratio_d' type="text" value="1" size="15" style="background-color: lightgray" />
+		<b>A:B = C:D</b>
 	</div>
 
 </div>
