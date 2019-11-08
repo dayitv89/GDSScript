@@ -1,9 +1,9 @@
 name,phone,email,gifted_value,original_membership_no,first_name,last_name,original_phone,original_points,marketing_pn_subscription,marketing_email_subscription,migrated_rewards,city,state,zip_code,preferred_location,migrated_redeemables
-Joes Garage,9922334455,a@punchh.com,12,1234567,a,b,9922334455,12,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
-Joes Garage,9922334456,b@punchh.com,24,1234569,a,b,9922334456,24,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
-Joes Garage,9922334457,c@punchh.com,36,1234571,a,b,9922334457,36,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
-Joes Garage,9922334458,d@punchh.com,48,1234573,a,b,9922334458,48,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
-Joes Garage,9922334459,e@punchh.com,60,1234575,a,b,9922334459,60,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
-Joes Garage,9922334460,f@punchh.com,72,1234577,a,b,9922334460,72,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
-Joes Garage,9922334461,g@punchh.com,84,1234579,a,b,9922334461,84,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
-Joes Garage,9922334462,h@punchh.com,96,1234581,a,b,9922334462,96,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
+Joes Garage,9922334455,a@site.com,12,1234567,a,b,9922334455,12,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
+Joes Garage,9922334456,b@site.com,24,1234569,a,b,9922334456,24,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
+Joes Garage,9922334457,c@site.com,36,1234571,a,b,9922334457,36,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
+Joes Garage,9922334458,d@site.com,48,1234573,a,b,9922334458,48,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
+Joes Garage,9922334459,e@site.com,60,1234575,a,b,9922334459,60,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
+Joes Garage,9922334460,f@site.com,72,1234577,a,b,9922334460,72,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
+Joes Garage,9922334461,g@site.com,84,1234579,a,b,9922334461,84,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
+Joes Garage,9922334462,h@site.com,96,1234581,a,b,9922334462,96,TRUE,TRUE,,jaipur,rajasthan,302001,null,null
