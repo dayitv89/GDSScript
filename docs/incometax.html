@@ -3,14 +3,16 @@
 <head>
 	<script>
 		function calc() {
-			var totalIncome = parseFloat(document.getElementById('annualIncome').value);
+			var totalIncome = parseFloat(document.getElementById('annualIncome').value) || 0;
+			var age = parseFloat(document.getElementById('age').value) || 30;
 			var stdded = 50000.0;
-			var s80c = parseFloat(document.getElementById('s80c').value);
-			var s24b = parseFloat(document.getElementById('s24b').value);
-			var hra = parseFloat(document.getElementById('hra').value);
-			var s80g100 = parseFloat(document.getElementById('s80g100').value);
-			var s80g50 = parseFloat(document.getElementById('s80g50').value);
-			var s80ggga = parseFloat(document.getElementById('s80ggga').value);
+			var s80c = parseFloat(document.getElementById('s80c').value) || 0;
+			var s24b = parseFloat(document.getElementById('s24b').value) || 0;
+			var hra = parseFloat(document.getElementById('hra').value) || 0;
+			var s80g100 = parseFloat(document.getElementById('s80g100').value) || 0;
+			var s80g50 = parseFloat(document.getElementById('s80g50').value) || 0;
+			var s80ggga = parseFloat(document.getElementById('s80ggga').value) || 0;
+			var s80d = parseFloat(document.getElementById('s80d').value) || 0;
 
 			if (s80c > 150000) {
 				s80c = 150000
@@ -18,11 +20,15 @@
 			if (s24b > 200000) {
 				s24b = 200000
 			}
+			if (age < 60 && s80d > 25000) {
+				s80d = 25000
+			} else if (age >= 60 && s80d > 50000) {
+				s80d = 50000
+			}
 			s80g50 = s80g50 / 2
 
 			// old scheme
-			var totalExemption = stdded + s80c + s24b + hra + s80g100 + s80g50 + s80ggga
-			console.log(stdded, s80c, s24b, hra, s80g100, s80g50, s80ggga, totalExemption)
+			var totalExemption = stdded + s80c + s24b + hra + s80g100 + s80g50 + s80ggga + s80d
 			document.getElementById('totalExemption').value = totalExemption
 			var totalTaxableIncome = totalIncome - totalExemption
 			if (totalTaxableIncome < 0) {
@@ -71,7 +77,8 @@
 	<div style="width: 75%; align-items: 'center'; margin: 50px auto;">
 		<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
 			<b>Total Annual Income:</b>
-			<input id='annualIncome' type="text" value="2000000" size="20" /><br />
+			<input id='annualIncome' type="text" value="2000000" size="20" /> <b>Age:</b>
+			<input id='age' type="text" value="30" size="20" /><br />
 		</div>
 		<div style="background-color: #cecece; padding: 10px; width: 65%; margin: 0 auto;">
 			<b>Standard Deduction: Section 17(2)(viii) of the Income-tax Act, 1961</b>
@@ -109,6 +116,11 @@
 			<b>Section 80GGA of the Income-tax Act, 1961: Donation 100% exemption</b>
 			<input id='s80ggga' type="text" value="0" size="20" /><br />
 			<p>80GGA political party donation (100% exemption)</p>
+		</div>
+		<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
+			<b>Section 80D of the Income-tax Act, 1961: Donation 100% exemption</b>
+			<input id='s80d' type="text" value="0" size="20" /><br />
+			<p>80D health insurance, limit is 25000(below 60 years) and 50000(above 60 years) and 100% exemption</p>
 		</div>
 
 
