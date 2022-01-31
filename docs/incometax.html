@@ -1,159 +1,159 @@
 <html>
 
-<head>
-	<script>
-		function calc() {
-			var totalIncome = parseFloat(document.getElementById('annualIncome').value) || 0;
-			var age = parseFloat(document.getElementById('age').value) || 30;
-			var stdded = 50000.0;
-			var s80c = parseFloat(document.getElementById('s80c').value) || 0;
-			var s24b = parseFloat(document.getElementById('s24b').value) || 0;
-			var hra = parseFloat(document.getElementById('hra').value) || 0;
-			var s80g100 = parseFloat(document.getElementById('s80g100').value) || 0;
-			var s80g50 = parseFloat(document.getElementById('s80g50').value) || 0;
-			var s80ggga = parseFloat(document.getElementById('s80ggga').value) || 0;
-			var s80d = parseFloat(document.getElementById('s80d').value) || 0;
+	<head>
+		<script>
+			function calc() {
+				var totalIncome = parseFloat(document.getElementById('annualIncome').value) || 0;
+				var age = parseFloat(document.getElementById('age').value) || 30;
+				var stdded = 50000.0;
+				var s80c = parseFloat(document.getElementById('s80c').value) || 0;
+				var s24b = parseFloat(document.getElementById('s24b').value) || 0;
+				var hra = parseFloat(document.getElementById('hra').value) || 0;
+				var s80g100 = parseFloat(document.getElementById('s80g100').value) || 0;
+				var s80g50 = parseFloat(document.getElementById('s80g50').value) || 0;
+				var s80ggga = parseFloat(document.getElementById('s80ggga').value) || 0;
+				var s80d = parseFloat(document.getElementById('s80d').value) || 0;
 
-			if (s80c > 150000) {
-				s80c = 150000
+				if (s80c > 150000) {
+					s80c = 150000
+				}
+				if (s24b > 200000) {
+					s24b = 200000
+				}
+				if (age < 60 && s80d > 25000) {
+					s80d = 25000
+				} else if (age >= 60 && s80d > 50000) {
+					s80d = 50000
+				}
+				s80g50 = s80g50 / 2
+
+				// old scheme
+				var totalExemption = stdded + s80c + s24b + hra + s80g100 + s80g50 + s80ggga + s80d
+				document.getElementById('totalExemption').value = totalExemption
+				var totalTaxableIncome = totalIncome - totalExemption
+				if (totalTaxableIncome < 0) {
+					totalTaxableIncome = 0
+				}
+				document.getElementById('totalTaxableIncome').value = totalTaxableIncome
+
+				var oldTax = 0
+				if (totalTaxableIncome > 1000000) { // >10L = 30%
+					oldTax = 112500 + (totalTaxableIncome - 1000000) * 0.3
+				} else if (totalTaxableIncome > 500000) { // > 5L = 20%
+					oldTax = 12500 + (totalTaxableIncome - 500000) * 0.2
+				} else if (totalTaxableIncome > 250000) { // > 2.5L = 5%
+					oldTax = (totalTaxableIncome - 250000) * 0.05
+				}
+				document.getElementById('oldTax').value = oldTax
+				document.getElementById('oldFinalTax').value = oldTax * 1.04
+
+				// New scheme
+				var totalTaxableIncomeNew = totalIncome
+				document.getElementById('totalTaxableIncomeNew').value = totalTaxableIncomeNew
+				var newTax = 0
+				if (totalTaxableIncomeNew > 1500000) { // >15L = 30%
+					newTax = 187500 + (totalTaxableIncomeNew - 1500000) * 0.3
+				} else if (totalTaxableIncomeNew > 1250000) { // > 12.5L = 25%
+					newTax = 125000 + (totalTaxableIncomeNew - 1250000) * 0.25
+				} else if (totalTaxableIncomeNew > 1000000) { // > 10L = 20%
+					newTax = 75000 + (totalTaxableIncomeNew - 1000000) * 0.2
+				} else if (totalTaxableIncomeNew > 750000) { // > 7.5L = 15%
+					newTax = 37500 + (totalTaxableIncomeNew - 750000) * 0.15
+				} else if (totalTaxableIncomeNew > 500000) { // > 5L = 10%
+					newTax = 12500 + (totalTaxableIncomeNew - 500000) * 0.1
+				} else if (totalTaxableIncomeNew > 250000) { // > 2.5L = 5%
+					newTax = (totalTaxableIncomeNew - 250000) * 0.05
+				}
+				document.getElementById('newTax').value = newTax
+				document.getElementById('newFinalTax').value = newTax * 1.04
 			}
-			if (s24b > 200000) {
-				s24b = 200000
-			}
-			if (age < 60 && s80d > 25000) {
-				s80d = 25000
-			} else if (age >= 60 && s80d > 50000) {
-				s80d = 50000
-			}
-			s80g50 = s80g50 / 2
+		</script>
+	</head>
 
-			// old scheme
-			var totalExemption = stdded + s80c + s24b + hra + s80g100 + s80g50 + s80ggga + s80d
-			document.getElementById('totalExemption').value = totalExemption
-			var totalTaxableIncome = totalIncome - totalExemption
-			if (totalTaxableIncome < 0) {
-				totalTaxableIncome = 0
-			}
-			document.getElementById('totalTaxableIncome').value = totalTaxableIncome
-
-			var oldTax = 0
-			if (totalTaxableIncome > 1000000) { // >10L = 30%
-				oldTax = 112500 + (totalTaxableIncome - 1000000) * 0.3
-			} else if (totalTaxableIncome > 500000) { // > 5L = 20%
-				oldTax = 12500 + (totalTaxableIncome - 500000) * 0.2
-			} else if (totalTaxableIncome > 250000) { // > 2.5L = 5%
-				oldTax = (totalTaxableIncome - 250000) * 0.05
-			}
-			document.getElementById('oldTax').value = oldTax
-			document.getElementById('oldFinalTax').value = oldTax * 1.04
-
-			// New scheme
-			var totalTaxableIncomeNew = totalIncome
-			document.getElementById('totalTaxableIncomeNew').value = totalTaxableIncomeNew
-			var newTax = 0
-			if (totalTaxableIncomeNew > 1500000) { // >15L = 30%
-				newTax = 187500 + (totalTaxableIncomeNew - 1500000) * 0.3
-			} else if (totalTaxableIncomeNew > 1250000) { // > 12.5L = 25%
-				newTax = 125000 + (totalTaxableIncomeNew - 1250000) * 0.25
-			} else if (totalTaxableIncomeNew > 1000000) { // > 10L = 20%
-				newTax = 75000 + (totalTaxableIncomeNew - 1000000) * 0.2
-			} else if (totalTaxableIncomeNew > 750000) { // > 7.5L = 15%
-				newTax = 37500 + (totalTaxableIncomeNew - 750000) * 0.15
-			} else if (totalTaxableIncomeNew > 500000) { // > 5L = 10%
-				newTax = 12500 + (totalTaxableIncomeNew - 500000) * 0.1
-			} else if (totalTaxableIncomeNew > 250000) { // > 2.5L = 5%
-				newTax = (totalTaxableIncomeNew - 250000) * 0.05
-			}
-			document.getElementById('newTax').value = newTax
-			document.getElementById('newFinalTax').value = newTax * 1.04
-		}
-	</script>
-</head>
-
-<body>
-	<center>
-		<h1>Income tax calculator for old & new scheme 2019-20-21</h1>
-	</center>
-	<div style="width: 75%; align-items: 'center'; margin: 50px auto;">
-		<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>Total Annual Income:</b>
-			<input id='annualIncome' type="text" value="2000000" size="20" /> <b>Age:</b>
-			<input id='age' type="text" value="30" size="20" /><br />
-		</div>
-		<div style="background-color: #cecece; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>Standard Deduction: Section 17(2)(viii) of the Income-tax Act, 1961</b>
-			<input id='stdded' type="text" value="50000" size="20" /><br />
-			<p>Standard deduction(50,000 INR) is available for everyone, because Transport Allowance, Medical Allowance
-				are
-				not exempted anymore.</p>
-		</div>
-		<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>Section 80C</b>
-			<input id='s80c' type="text" value="150000" size="20" /><br />
-			<p>PPF, Tax saving FD, home loan principle, ELSS mutual fund etc) Limit 1,50,000 (1.5 lacs)</p>
-		</div>
-		<div style="background-color: #cecece; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>Section 24B</b>
-			<input id='s24b' type="text" value="200000" size="20" /><br />
-			<p>Home loan interest rate exemption, max allowed 2,00,000 (2 lacs)</p>
-		</div>
-		<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>HRA: Section 10 (13A) of the Income-tax Act, 1961</b>
-			<input id='hra' type="text" value="0" size="20" /><br />
-			<p>House rent Allowance.</p>
-		</div>
-		<div style="background-color: #cecece; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>Section 80G of the Income-tax Act, 1961: Donation 100% exemption</b>
-			<input id='s80g100' type="text" value="0" size="20" /><br />
-			<p>80G on selected domain is 100%. fill below for 50%</p>
-		</div>
-		<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>Section 80G of the Income-tax Act, 1961: Donation 50% exemption</b>
-			<input id='s80g50' type="text" value="0" size="20" /><br />
-			<p>80G on selected domain is 50%. fill above for 100%</p>
-		</div>
-		<div style="background-color: #cecece; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>Section 80GGA of the Income-tax Act, 1961: Donation 100% exemption</b>
-			<input id='s80ggga' type="text" value="0" size="20" /><br />
-			<p>80GGA political party donation (100% exemption)</p>
-		</div>
-		<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>Section 80D of the Income-tax Act, 1961: Donation 100% exemption</b>
-			<input id='s80d' type="text" value="0" size="20" /><br />
-			<p>80D health insurance, limit is 25000(below 60 years) and 50000(above 60 years) and 100% exemption</p>
-		</div>
-
-
+	<body>
 		<center>
-			<button style='background-color: #0092bc; height: 50px; color: white; border-radius: 5px; margin: 10px;'
-				onclick="calc()">Calculate</button>
+			<h1>Income tax calculator for old & new scheme 2019-20-21</h1>
 		</center>
-		<br />
+		<div style="width: 75%; align-items: 'center'; margin: 50px auto;">
+			<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>Total Annual Income:</b>
+				<input id='annualIncome' type="text" value="2000000" size="20" /> <b>Age:</b>
+				<input id='age' type="text" value="30" size="20" /><br />
+			</div>
+			<div style="background-color: #cecece; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>Standard Deduction: Section 17(2)(viii) of the Income-tax Act, 1961</b>
+				<input id='stdded' type="text" value="50000" size="20" /><br />
+				<p>Standard deduction(50,000 INR) is available for everyone, because Transport Allowance, Medical Allowance
+					are
+					not exempted anymore.</p>
+			</div>
+			<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>Section 80C</b>
+				<input id='s80c' type="text" value="150000" size="20" /><br />
+				<p>PPF, Tax saving FD, home loan principle, ELSS mutual fund etc) Limit 1,50,000 (1.5 lacs)</p>
+			</div>
+			<div style="background-color: #cecece; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>Section 24B</b>
+				<input id='s24b' type="text" value="200000" size="20" /><br />
+				<p>Home loan interest rate exemption, max allowed 2,00,000 (2 lacs)</p>
+			</div>
+			<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>HRA: Section 10 (13A) of the Income-tax Act, 1961</b>
+				<input id='hra' type="text" value="0" size="20" /><br />
+				<p>House rent Allowance.</p>
+			</div>
+			<div style="background-color: #cecece; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>Section 80G of the Income-tax Act, 1961: Donation 100% exemption</b>
+				<input id='s80g100' type="text" value="0" size="20" /><br />
+				<p>80G on selected domain is 100%. fill below for 50%</p>
+			</div>
+			<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>Section 80G of the Income-tax Act, 1961: Donation 50% exemption</b>
+				<input id='s80g50' type="text" value="0" size="20" /><br />
+				<p>80G on selected domain is 50%. fill above for 100%</p>
+			</div>
+			<div style="background-color: #cecece; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>Section 80GGC of the Income-tax Act, 1961: Donation 100% exemption</b>
+				<input id='s80ggga' type="text" value="0" size="20" /><br />
+				<p>80GGA political party donation (100% exemption)</p>
+			</div>
+			<div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>Section 80D of the Income-tax Act, 1961: Donation 100% exemption</b>
+				<input id='s80d' type="text" value="0" size="20" /><br />
+				<p>80D health insurance, limit is 25000(below 60 years) and 50000(above 60 years) and 100% exemption</p>
+			</div>
 
-		<div style="background-color: #00478e; color: white; padding: 10px; width: 65%; margin: 0 auto;">
-			<b>Old Scheme:</b>
-			Total exemption : <input id='totalExemption' type="text" value="400000" size="10" />
-			Total Taxable Income : <input id='totalTaxableIncome' type="text" value="1600000" size="10" />
-			<br /><br />
-			Calculated Tax:<input id='oldTax' type="text" value="292500" size="10" />
-			+ 4% cess =
-			Final Payable Tax: <input id='oldFinalTax' type="text" value="304200" size="10" />
-			<br /><br />
-			<hr />
+
+			<center>
+				<button style='background-color: #0092bc; height: 50px; color: white; border-radius: 5px; margin: 10px;'
+					onclick="calc()">Calculate</button>
+			</center>
 			<br />
-			<b>New Scheme : </b>
-			Total exemption: 0
-			Total Taxable Income : <input id='totalTaxableIncomeNew' type="text" value="2000000" size="10" />
-			<br /><br />
-			Calculated Tax:<input id='newTax' type="text" value="337500" size="10" />
-			+ 4% cess =
-			Final Payable Tax: <input id='newFinalTax' type="text" value="351000" size="10" />
+
+			<div style="background-color: #00478e; color: white; padding: 10px; width: 65%; margin: 0 auto;">
+				<b>Old Scheme:</b>
+				Total exemption : <input id='totalExemption' type="text" value="400000" size="10" />
+				Total Taxable Income : <input id='totalTaxableIncome' type="text" value="1600000" size="10" />
+				<br /><br />
+				Calculated Tax:<input id='oldTax' type="text" value="292500" size="10" />
+				+ 4% cess =
+				Final Payable Tax: <input id='oldFinalTax' type="text" value="304200" size="10" />
+				<br /><br />
+				<hr />
+				<br />
+				<b>New Scheme : </b>
+				Total exemption: 0
+				Total Taxable Income : <input id='totalTaxableIncomeNew' type="text" value="2000000" size="10" />
+				<br /><br />
+				Calculated Tax:<input id='newTax' type="text" value="337500" size="10" />
+				+ 4% cess =
+				Final Payable Tax: <input id='newFinalTax' type="text" value="351000" size="10" />
+			</div>
+			<br />
+			<center>
+				<div>Developed by: Gaurav D. Sharma</div>
+			</center>
 		</div>
-		<br />
-		<center>
-			<div>Developed by: Gaurav D. Sharma</div>
-		</center>
-	</div>
-</body>
+	</body>
 
 </html>
