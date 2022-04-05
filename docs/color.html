@@ -151,6 +151,60 @@
 		var val_c = document.getElementById('ratio_c').value;
 		document.getElementById('ratio_d').value = val_c * val_b / val_a;
 	}
+
+	function rateCalc(type) {
+		var base = parseFloat(document.getElementById('base').value);
+		var rate = parseFloat(document.getElementById('rate').value);
+		var rate_val = parseFloat(document.getElementById('rate_val').value);
+		var final_val = parseFloat(document.getElementById('final_val').value);
+
+		if (type == 'base' || type == 'rate') {
+			rate_val = base * rate / 100
+			final_val = base + rate_val
+
+			document.getElementById('rate_val').value = rate_val;
+			document.getElementById('final_val').value = final_val;
+		} else if (type == 'rate_val') {
+			rate = rate_val * 100 / base
+			final_val = base + rate_val
+
+			document.getElementById('rate').value = rate;
+			document.getElementById('final_val').value = final_val;
+		} else if (type == 'final_val') {
+			base = (100 / (100 + rate)) * final_val
+			rate_val = final_val - base
+			document.getElementById('base').value = base;
+			document.getElementById('rate_val').value = rate_val;
+		}
+	}
+
+	function rateMinusCalc(type) {
+		var base_minus = parseFloat(document.getElementById('base_minus').value);
+		var rate_minus = parseFloat(document.getElementById('rate_minus').value);
+		var rate_val_minus = parseFloat(document.getElementById('rate_val_minus').value);
+		var final_val_minus = parseFloat(document.getElementById('final_val_minus').value);
+
+		if (type == 'base_minus' || type == 'rate_minus') {
+			rate_val_minus = base * rate / 100
+			final_val_minus = base_minus - rate_val_minus
+
+			document.getElementById('rate_val_minus').value = rate_val_minus;
+			document.getElementById('final_val_minus').value = final_val_minus;
+		} else if (type == 'rate_val_minus') {
+			rate_minus = rate_val_minus * 100 / base_minus
+			final_val = base_minus - rate_val_minus
+
+			document.getElementById('rate_minus').value = rate_minus;
+			document.getElementById('final_val_minus').value = final_val;
+		} else if (type == 'final_val_minus') {
+			base_minus = (100 / (100 - rate_minus)) * final_val_minus
+			rate_val_minus = base_minus - final_val_minus
+			document.getElementById('base_minus').value = base_minus;
+			document.getElementById('rate_val_minus').value = rate_val_minus;
+		}
+	}
+
+
 </script>
 
 <div style="width: 75%; align-items: 'center'; margin: 50px auto;">
@@ -165,8 +219,7 @@
 
 	<div style="background-color: #00478e; color: white; padding: 10px; width: 65%; margin: 0 auto;">
 		<b>Height:</b> <input id='height' type="text" value="667" onKeyUp="calHeight('height')" size="10" />
-		Available Height: <input id='availHeight' type="text" value="667" onKeyUp="calHeight('availHeight')"
-			size="10" />
+		Available Height: <input id='availHeight' type="text" value="667" onKeyUp="calHeight('availHeight')" size="10" />
 		Percentage Height: <input id='perHeight' type="text" value="100" onKeyUp="calHeight('perHeight')" size="10" />
 		1-per: <input id="one_perHeight" value="0" disabled size="10" size="10" />
 	</div>
@@ -190,8 +243,8 @@
 	<div style='background-color: white; height: 50px;'>&nbsp;</div>
 
 	<div style="background-color: lightGray; padding: 10px; width: 65%; margin: 0 auto;">
-		<b>RGBA percent:</b> <input id='rgbaFloat' type="text" value="1.0,1.0,1.0,1.0"
-			onKeyUp="covFloatColor('rgbaFloat')" size="30" />
+		<b>RGBA percent:</b> <input id='rgbaFloat' type="text" value="1.0,1.0,1.0,1.0" onKeyUp="covFloatColor('rgbaFloat')"
+			size="30" />
 		<div id="floatColor" style="width: 20; height: 20; display: inline-block; background-color: white"></div>
 		RGBA: <input id='rgbReal' type="text" value="255,255,255,1.0" onKeyUp="covFloatColor('rgbReal')" size="30" />
 		<button onclick="clipToCopy('rgbReal')" type="button">Tap to copy</button>
@@ -205,6 +258,23 @@
 		c => <input id='ratio_c' type="text" value="1" onKeyUp="ratio()" size="15" />
 		d => <input id='ratio_d' type="text" value="1" size="15" style="background-color: lightgray" />
 		<b>A:B = C:D</b>
+	</div>
+	<br />
+	<div style="background-color:lightGray; padding: 10px; width: 65%; margin: 0 auto;">
+		Base<input id='base' type="text" value="100" onKeyUp="rateCalc('base')" size="15" />
+		Rate +%<input id='rate' type="text" value="18" onKeyUp="rateCalc('rate')" size="15" />
+		final Val<input id='final_val' type="text" value="118" size="15" onKeyUp="rateCalc('final_val')" />
+		Rate Val<input id='rate_val' type="text" value="18" size="15" onKeyUp="rateCalc('rate_val')" />
+		<br />
+		<b>Base + @rate = Final Value(included Rate Value)</b>
+	</div>
+	<div style="background-color:lightGray; padding: 10px; width: 65%; margin: 0 auto;">
+		Base<input id='base_minus' type="text" value="100" onKeyUp="rateMinusCalc('base_minus')" size="15" />
+		Rate -%<input id='rate_minus' type="text" value="10" onKeyUp="rateMinusCalc('rate_minus')" size="15" />
+		final Val<input id='final_val_minus' type="text" value="90" size="15" onKeyUp="rateMinusCalc('final_val_minus')" />
+		Rate Val<input id='rate_val_minus' type="text" value="10" size="15" onKeyUp="rateMinusCalc('rate_val_minus')" />
+		<br />
+		<b>Base - @rate = Final Value(excluded Rate Value)</b>
 	</div>
 	<br />
 	<center>
