@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+      function generate() {
+        document.getElementById('preview').style['background-color'] = document.getElementById('bgColorPicker').value
+        document.getElementById('previewText').style['color'] = document.getElementById('textColorPicker').value
+        document.getElementById('previewText').style['font-size'] = document.getElementById('inputTextSize').value
+        document.getElementById('previewText').innerHTML = document.getElementById('inputText').value
+      }
+
+      //Creating dynamic link that automatically click
+      function downloadURI(uri, name) {
+        var link = document.createElement('a')
+        link.download = name
+        link.href = uri
+        link.click()
+        //after creating link you should delete dynamic link
+        //clearDynamicLink(link);
+      }
+
+      function printToFile(div, name) {
+        html2canvas(div).then(function (canvas) {
+          var myImage = canvas.toDataURL()
+          downloadURI(myImage, name + '.png')
+        })
+      }
+
+      function download() {
+        const el = document.getElementById('preview')
+        printToFile(el, document.getElementById('inputText').value)
+      }
+    </script>
+    <style>
+      .preview-container {
+        background-color: #00478e;
+        margin: 0 auto;
+        padding: 10px;
+        width: 65%;
+        height: 40%;
+        display: flex;
+        justify-content: center;
+        align-self: center;
+      }
+      .preview-text {
+        align-self: center;
+        font-size: 40px;
+        color: #ffffff;
+      }
+      .btn {
+        border: 5px solid white;
+        margin: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <center>
+      <h1>Text Image Generator</h1>
+    </center>
+    <div style="width: 75%; align-items: 'center'; margin: 50px auto">
+      <div id="preview" class="preview-container">
+        <Text id="previewText" class="preview-text">Hello, World!</Text>
+      </div>
+      <br />
+
+      <div style="background-color: #ececec; padding: 10px; width: 65%; margin: 0 auto">
+        <b>Background Color:</b>
+        <input type="color" value="#00478e" id="bgColorPicker" oninput="generate()" />
+        <b>Text Color:</b>
+        <input type="color" value="#FFFFFF" id="textColorPicker" oninput="generate()" />
+        <b>Text Size:</b>
+        <input type="number" value="40" size="4" id="inputTextSize" onkeyup="generate()" /><br /><br />
+        <b>Text:</b>
+        <input type="text" value="Hello, World!" size="60" id="inputText" onkeyup="generate()" />
+      </div>
+
+      <center>
+        <button style="background-color: #0092bc; height: 50px; color: white" class="btn" onclick="generate()">Generate</button>
+        <button style="background-color: #ea3604; height: 50px; color: white" class="btn" onclick="download()">Download</button>
+      </center>
+      <br />
+
+      <center>
+        <div>Developed by: Gaurav D. Sharma</div>
+      </center>
+    </div>
+  </body>
+</html>
